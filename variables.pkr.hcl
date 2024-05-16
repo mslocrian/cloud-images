@@ -10,6 +10,16 @@ variable "os_ver_8" {
   }
 }
 
+variable "ARTIFACTORY_USERNAME" {
+  type = string
+  default ="username"
+}
+
+variable "ARTIFACTORY_PASSWORD" {
+  type = string
+  default ="username"
+}
+
 variable "os_ver_9" {
   description = "AlmaLinux OS 9 version"
 
@@ -301,7 +311,8 @@ local "azure_boot_command_8_x86_64" {
 
 local "rocky_azure_boot_command_8_x86_64" {
   expression = [
-    "c<wait>",
+    "<tab>",
+    " <wait>",
     "linuxefi /images/pxeboot/vmlinuz",
     " inst.stage2=hd:LABEL=Rocky-8-${local.os_ver_minor_8}-x86_64-dvd ro",
     " inst.text biosdevname=0 net.ifnames=0",

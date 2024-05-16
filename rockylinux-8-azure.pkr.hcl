@@ -28,7 +28,6 @@ source "qemu" "rockylinux-8-azure-x86_64" {
   vm_name            = "RockyLinux-8-Azure-${var.os_ver_8}-${formatdate("YYYYMMDD", timestamp())}.x86_64.raw"
   boot_wait          = var.boot_wait
   boot_command       = local.rocky_azure_boot_command_8_x86_64
-  //display =  "curses"
   qemuargs = [
     ["-cpu", "host"]
   ]
@@ -36,6 +35,16 @@ source "qemu" "rockylinux-8-azure-x86_64" {
 
 build {
   sources = ["qemu.rockylinux-8-azure-x86_64"]
+
+  provisioner "shell" {
+    environment_vars =  [
+      "ARTIFACTORY_USERNAME=${var.ARTIFACTORY_USERNAME}",
+      "ARTIFACTORY_PASSWORD=${var.ARTIFACTORY_PASSWORD}"
+    ]
+    script = "./scripts/run_imagefactory.sh"
+  }
+
+/*
 
   provisioner "ansible" {
     playbook_file    = "./ansible/azure.yml"
@@ -48,4 +57,5 @@ build {
       "ANSIBLE_SSH_ARGS='-o ControlMaster=no -o ControlPersist=180s -o ServerAliveInterval=120s -o TCPKeepAlive=yes'"
     ]
   }
+*/
 }

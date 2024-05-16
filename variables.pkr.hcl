@@ -28,18 +28,22 @@ locals {
 }
 
 locals {
-  iso_url_8_x86_64       = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/x86_64/AlmaLinux-${var.os_ver_8}-x86_64-boot.iso"
-  iso_checksum_8_x86_64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/x86_64/CHECKSUM"
-  iso_url_8_aarch64      = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/aarch64/AlmaLinux-${var.os_ver_8}-aarch64-boot.iso"
-  iso_checksum_8_aarch64 = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/aarch64/CHECKSUM"
-  iso_url_8_ppc64le      = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/ppc64le/AlmaLinux-${var.os_ver_8}-ppc64le-boot.iso"
-  iso_checksum_8_ppc64le = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/ppc64le/CHECKSUM"
-  iso_url_9_x86_64       = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/AlmaLinux-${var.os_ver_9}-x86_64-boot.iso"
-  iso_checksum_9_x86_64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/CHECKSUM"
-  iso_url_9_aarch64      = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/aarch64/AlmaLinux-${var.os_ver_9}-aarch64-boot.iso"
-  iso_checksum_9_aarch64 = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/aarch64/CHECKSUM"
-  iso_url_9_ppc64le      = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/ppc64le/AlmaLinux-${var.os_ver_9}-ppc64le-boot.iso"
-  iso_checksum_9_ppc64le = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/ppc64le/CHECKSUM"
+  rocky_iso_url_8_x86_64  = "http://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-${var.os_ver_8}-x86_64-boot.iso"
+  rocky_checksum_8_x86_64 = "88baefca6f0e78b53613773954e0d7c2d8d28ad863f40623db75c40f505b5105"
+  rocky_iso_url_8_aarch64  = "http://dl.rockylinux.org/pub/rocky/8/isos/aarch64/Rocky-${var.os_ver_8}-aarch64-boot.iso"
+  rocky_checksum_8_aarch64 = "365eb916ef7da00343721f9a312ac07395c9dcaf209fd568f511585951431b92"
+  iso_url_8_x86_64        = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/x86_64/AlmaLinux-${var.os_ver_8}-x86_64-boot.iso"
+  iso_checksum_8_x86_64   = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/x86_64/CHECKSUM"
+  iso_url_8_aarch64       = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/aarch64/AlmaLinux-${var.os_ver_8}-aarch64-boot.iso"
+  iso_checksum_8_aarch64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/aarch64/CHECKSUM"
+  iso_url_8_ppc64le       = "https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/ppc64le/AlmaLinux-${var.os_ver_8}-ppc64le-boot.iso"
+  iso_checksum_8_ppc64le  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_8}/isos/ppc64le/CHECKSUM"
+  iso_url_9_x86_64        = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/AlmaLinux-${var.os_ver_9}-x86_64-boot.iso"
+  iso_checksum_9_x86_64   = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/x86_64/CHECKSUM"
+  iso_url_9_aarch64       = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/aarch64/AlmaLinux-${var.os_ver_9}-aarch64-boot.iso"
+  iso_checksum_9_aarch64  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/aarch64/CHECKSUM"
+  iso_url_9_ppc64le       = "https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/ppc64le/AlmaLinux-${var.os_ver_9}-ppc64le-boot.iso"
+  iso_checksum_9_ppc64le  = "file:https://repo.almalinux.org/almalinux/${var.os_ver_9}/isos/ppc64le/CHECKSUM"
 }
 
 # Common
@@ -288,6 +292,20 @@ local "azure_boot_command_8_x86_64" {
     " inst.stage2=hd:LABEL=AlmaLinux-8-${local.os_ver_minor_8}-x86_64-dvd ro",
     " inst.text biosdevname=0 net.ifnames=0",
     " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/almalinux-8.azure-x86_64.ks",
+    "<enter>",
+    "initrdefi /images/pxeboot/initrd.img",
+    "<enter>",
+    "boot<enter><wait>"
+  ]
+}
+
+local "rocky_azure_boot_command_8_x86_64" {
+  expression = [
+    "c<wait>",
+    "linuxefi /images/pxeboot/vmlinuz",
+    " inst.stage2=hd:LABEL=Rocky-8-${local.os_ver_minor_8}-x86_64-dvd ro",
+    " inst.text biosdevname=0 net.ifnames=0",
+    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/rockylinux-8.azure-x86_64.ks",
     "<enter>",
     "initrdefi /images/pxeboot/initrd.img",
     "<enter>",

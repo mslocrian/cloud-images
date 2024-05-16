@@ -52,7 +52,7 @@ variable "headless" {
   description = "Disable GUI"
 
   type    = bool
-  default = true
+  default = false
 }
 
 variable "boot_wait" {

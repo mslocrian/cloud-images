@@ -3,14 +3,12 @@
  */
 
 source "qemu" "rockylinux-8-azure-x86_64" {
-  //iso_url            = local.rocky_iso_url_8_x86_64
-  //iso_checksum       = local.rocky_checksum_8_x86_64
-  iso_url            = local.rocky_iso_url_8_aarch64
-  iso_checksum       = local.rocky_checksum_8_aarch64
+  iso_url            = local.rocky_iso_url_8_x86_64
+  iso_checksum       = local.rocky_checksum_8_x86_64
   shutdown_command   = var.root_shutdown_command
-  //accelerator        = "kvm"
+  accelerator        = "kvm"
   // mac hypervisor
-  accelerator        = "hvf"
+  //accelerator        = "hvf"
   http_directory     = var.http_directory
   ssh_username       = var.gencloud_ssh_username
   ssh_password       = var.gencloud_ssh_password
@@ -30,7 +28,7 @@ source "qemu" "rockylinux-8-azure-x86_64" {
   vm_name            = "RockyLinux-8-Azure-${var.os_ver_8}-${formatdate("YYYYMMDD", timestamp())}.x86_64.raw"
   boot_wait          = var.boot_wait
   boot_command       = local.rocky_azure_boot_command_8_x86_64
-  display =  "curses"
+  //display =  "curses"
   qemuargs = [
     ["-cpu", "host"]
   ]

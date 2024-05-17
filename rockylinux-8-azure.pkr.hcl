@@ -63,6 +63,14 @@ build {
   }
 
   provisioner "shell" {
+    environment_vars =  [
+      "IMAGE_PATH=output-rockylinux-8-azure-x86_64",
+      "IMAGE_NAME=${var.vn_name}"
+    ]
+    script = "./scripts/format_to_vhd.sh"
+  }
+
+  provisioner "shell" {
     inline = ["sudo dracut -f -v", "sudo waagent -force -deprovision"]
   }
 

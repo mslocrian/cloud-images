@@ -18,9 +18,10 @@ gpgkey=https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@artifactory-uw2.a
 EOF
 
 dnf makecache
+check_ret $? "could not run dnf makecache"
 
 dnf -y install if-hardener-rocky-linux-8
-
+check_ret $? "could not install if hardener"
 
 touch /etc/modprobe.d/CIS.conf
 echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
@@ -35,5 +36,6 @@ checks-to-skip:
 EOF
 
 /opt/image-factory-hardener/bin/exec --run --implement-high-risk --edr-ccid=${EDR_CCID} --edr-tags=${EDR_TAGS} --golden-image --skip-checks-file=/tmp/skip-checks.yaml
+check_ret $? "could not run if hardener"
 
 rm -f /tmp/skip-checks.yaml

@@ -9,6 +9,10 @@ export PKR_VAR_ARTIFACTORY_PASSWORD=${CORP_ARTIFACTORY_PASSWORD_UW2}
 
 #packer init -upgrade .
 
+if [[ -d output-rockylinux-8-azure-x86_64 ]]; then
+    rm -rf output-rockylinux-8-azure-x86_64
+fi
+
 if [[ "${ID}" == "rocky" ]]; then
     packer build -var "headless=true" -var "qemu_binary=qemu-kvm" -only=qemu.rockylinux-8-azure-x86_64 .
 else

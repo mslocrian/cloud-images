@@ -302,7 +302,8 @@ variable "azure_disk_size" {
   description = "The size in MiB of hard disk of VM"
 
   type    = number
-  default = 30720
+  //default = 30720
+  default = 20480
 }
 
 local "azure_boot_command_8_x86_64" {

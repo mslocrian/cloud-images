@@ -39,7 +39,7 @@ build {
     galaxy_file      = "./ansible/requirements.yml"
     roles_path       = "./ansible/roles"
     collections_path = "./ansible/collections"
-    galaxy_command   = "ansible-galaxy --server https://old-galaxy.ansible.com/
+    galaxy_command   = "ansible-galaxy --server https://old-galaxy.ansible.com/"
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",

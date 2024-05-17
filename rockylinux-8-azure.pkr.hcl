@@ -43,8 +43,13 @@ build {
     ansible_env_vars = [
       "ANSIBLE_PIPELINING=True",
       "ANSIBLE_REMOTE_TEMP=/tmp",
-      "ANSIBLE_SSH_ARGS='-o ControlMaster=no -o ControlPersist=180s -o ServerAliveInterval=120s -o TCPKeepAlive=yes'"
+      "ANSIBLE_SSH_ARGS='-o ControlMaster=no -o ControlPersist=180s -o ServerAliveInterval=120s -o TCPKeepAlive=yes'",
+      "ANSIBLE_GALAXY_SERVER=https://old-galaxy.ansible.com/"
     ]
+  }
+
+  provisioner "shell" {
+    inline = ["dnf -y update"]
   }
 
   provisioner "shell" {
@@ -55,6 +60,10 @@ build {
       "EDR_TAGS=${var.EDR_TAGS}"
     ]
     script = "./scripts/run_imagefactory.sh"
+  }
+
+  provisioner "shell" {
+    inline = ["sudo dracut -f -v", "sudo waagent -force -deprovision"]
   }
 
 }

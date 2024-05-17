@@ -21,4 +21,19 @@ dnf makecache
 
 dnf -y install if-hardener-rocky-linux-8
 
-/opt/image-factory-hardener/bin/exec --run --implement-high-risk --edr-ccid=${EDR_CCID} --edr-tags=${EDR_TAGS} --golden-image
+
+touch /etc/modprobe.d/CIS.conf
+echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
+echo "install squashfs /bin/true" >> /etc/modprobe.d/CIS.conf
+echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
+
+cat << EOF > /tmp/skip-checks.yaml
+checks-to-skip:
+  - CIS-1.1.3, 1.1.4, 1.1.5
+  - CIS-1.1.8, 1.1.9, 1.1.10
+  - CIS-5.2.2
+EOF
+
+/opt/image-factory-hardener/bin/exec --run --implement-high-risk --edr-ccid=${EDR_CCID} --edr-tags=${EDR_TAGS} --golden-image --skip-checks-file=/tmp/skip-checks.yaml
+
+rm -f /tmp/skip-checks.yaml

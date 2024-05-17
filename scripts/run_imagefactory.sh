@@ -29,9 +29,9 @@ echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
 
 cat << EOF > /tmp/skip-checks.yaml
 checks-to-skip:
-  - CIS-1.1.3, 1.1.4, 1.1.5
-  - CIS-1.1.8, 1.1.9, 1.1.10
-  - CIS-5.2.2
+  - check1_1_3
+  - check1_1_8
+  - check5_2_2
 EOF
 
 /opt/image-factory-hardener/bin/exec --run --implement-high-risk --edr-ccid=${EDR_CCID} --edr-tags=${EDR_TAGS} --golden-image --skip-checks-file=/tmp/skip-checks.yaml

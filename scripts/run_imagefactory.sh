@@ -21,4 +21,4 @@ dnf makecache
 
 dnf -y install if-hardener-rocky-linux-8
 
-/opt/image-factory-hardener/bin/exec --run --implement-high-risk
+/opt/image-factory-hardener/bin/exec --run --implement-high-risk --edr-ccid=${EDR_CCID} --edr-tags=${EDR_TAGS} --golden-image

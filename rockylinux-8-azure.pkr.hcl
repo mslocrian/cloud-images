@@ -7,8 +7,6 @@ source "qemu" "rockylinux-8-azure-x86_64" {
   iso_checksum       = local.rocky_checksum_8_x86_64
   shutdown_command   = var.root_shutdown_command
   accelerator        = "kvm"
-  // mac hypervisor
-  //accelerator        = "hvf"
   http_directory     = var.http_directory
   ssh_username       = var.gencloud_ssh_username
   ssh_password       = var.gencloud_ssh_password
@@ -36,16 +34,6 @@ source "qemu" "rockylinux-8-azure-x86_64" {
 build {
   sources = ["qemu.rockylinux-8-azure-x86_64"]
 
-  provisioner "shell" {
-    environment_vars =  [
-      "ARTIFACTORY_USERNAME=${var.ARTIFACTORY_USERNAME}",
-      "ARTIFACTORY_PASSWORD=${var.ARTIFACTORY_PASSWORD}"
-    ]
-    script = "./scripts/run_imagefactory.sh"
-  }
-
-/*
-
   provisioner "ansible" {
     playbook_file    = "./ansible/azure.yml"
     galaxy_file      = "./ansible/requirements.yml"
@@ -57,5 +45,15 @@ build {
       "ANSIBLE_SSH_ARGS='-o ControlMaster=no -o ControlPersist=180s -o ServerAliveInterval=120s -o TCPKeepAlive=yes'"
     ]
   }
-*/
+
+  provisioner "shell" {
+    environment_vars =  [
+      "ARTIFACTORY_USERNAME=${var.ARTIFACTORY_USERNAME}",
+      "ARTIFACTORY_PASSWORD=${var.ARTIFACTORY_PASSWORD}",
+      "EDR_CCID=${var.EDR_CCID}",
+      "EDR_TAGS=${var.EDR_TAGS}"
+    ]
+    script = "./scripts/run_imagefactory.sh"
+  }
+
 }

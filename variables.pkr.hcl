@@ -10,6 +10,16 @@ variable "os_ver_8" {
   }
 }
 
+variable "EDR_CCID" {
+  type = string
+  default = "048293cb3b4645bcbaea3844bfa022e4"
+}
+
+variable "EDR_TAGS" {
+  type = string
+  default = "DEV,JIRA-DCOPS,SVC-678,IMAGEFACTORY"
+}
+
 variable "ARTIFACTORY_USERNAME" {
   type = string
   default ="username"
